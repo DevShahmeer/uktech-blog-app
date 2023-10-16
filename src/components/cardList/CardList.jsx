@@ -19,7 +19,6 @@ const getData = async (page) => {
 const CardList = async({page}) => {
   
   const {posts, count} = await getData(page);
-  console.log('API Response:', { posts, count });
 
 
   const POST_PER_PAGE = 2;
