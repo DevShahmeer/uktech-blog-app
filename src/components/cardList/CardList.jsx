@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './cardList.module.css';
 import Pagination from '../pagination/Pagination';
-import Image from 'next/image';
 import Card from '../card/Card';
 
 const getData = async (page) => {
@@ -9,8 +8,8 @@ const getData = async (page) => {
     cache: "no-store",
   });
   
-  if(!res.ok) {
-    throw new Error("Failedd")
+  if (!res.ok) {
+    throw new Error(`Failed to fetch data. Status`);
   }
 
   return res.json()
@@ -18,19 +17,25 @@ const getData = async (page) => {
 }
 
 const CardList = async({page}) => {
+  
+  const {posts, count} = await getData(page);
+  console.log('API Response:', { posts, count });
 
-  const data = await getData(page);
+
+  const POST_PER_PAGE = 2;
+
+  const hasPrev = POST_PER_PAGE * (page -1) > 0;
+  const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Recent Posts</h1>
       <div className={styles.posts}>
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
+        {posts?.map((item) => (
+          <Card key={item._id} item={item} />
+        ))}
       </div>
-      <Pagination/>
+      <Pagination page={page} hasNext={hasNext} hasPrev={hasPrev}/>
     </div>
   )
 }
