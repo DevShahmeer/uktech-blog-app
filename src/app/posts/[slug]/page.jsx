@@ -4,6 +4,7 @@ import styles from './singlePage.module.css'
 import Image from 'next/image'
 import React from 'react'
 
+
 const getData = async (slug) => {
     const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
       cache: "no-store",
@@ -50,7 +51,7 @@ const SinglePage = async ({params}) => {
         <div className={styles.content}>
         <div className={styles.post}>
             <div className={styles.comment}>
-            <Comments />
+            <Comments postSlug={slug} />
             </div>  
         </div>
         <Menu/>
